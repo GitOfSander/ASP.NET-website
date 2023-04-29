@@ -1,0 +1,312 @@
+﻿@model DefaultViewModel
+
+@section Stylesheets {
+    <environment names="Development">
+        <link rel="stylesheet" href="~/spine-content/css/slider.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/spine-content/lib/slider-revolution-master/dist/css/settings.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/spine-content/lib/slick/dist/css/slick.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/spine-content/lib/slick/dist/css/slick-theme.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/spine-content/css/projects.css" asp-append-version="true" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/spine-content/css/minified/slick.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/spine-content/css/minified/HomeIndex.min.css" asp-append-version="true" />
+    </environment>
+}
+
+@section Scripts {
+    <environment names="Development">
+        <script src="~/spine-content/lib/slider-revolution-master/dist/js/jquery.themepunch.plugins.min.js" asp-append-version="true"></script>
+        <script src="~/spine-content/lib/slider-revolution-master/dist/js/jquery.themepunch.revolution.min.js" asp-append-version="true"></script>
+        <script src="~/spine-content/lib/slick/dist/js/slick.js" asp-append-version="true"></script>
+        <script src="~/spine-content/js/HomeIndex.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/spine-content/js/minified/revolution.min.js" asp-append-version="true"></script>
+        <script src="~/spine-content/js/minified/slick.min.js" asp-append-version="true"></script>
+        <script src="~/spine-content/js/minified/HomeIndex.min.js" asp-append-version="true"></script>
+    </environment>
+}
+
+<section class="sd-intro">
+    <div class="tp-banner-container">
+        <div class="tp-banner">
+            <ul>
+                @foreach (var i in Model.DataBundles["Slider"].OrderBy(x => x.DataItem.CustomOrder).ToList())
+                {
+                    @if (i.DataItemFiles.Join(i.DataTemplateUploads, DataItemFiles => DataItemFiles.DataTemplateUploadId, DataTemplateUploads => DataTemplateUploads.Id, (DataItemFiles, DataTemplateUploads) => new { DataItemFiles, DataTemplateUploads }).FirstOrDefault(x => x.DataTemplateUploads.CallName == "Image") != null)
+                    {
+                        var _dataItemFile = Model.GetDataItemFileByCallName(i, "Image");
+
+                        <li data-transition="fade" data-delay="9000" data-thumb="@_dataItemFile.CompressedPath.Replace("~/", "/")">
+                            <img data-lazyload="@_dataItemFile.CompressedPath.Replace("~/", "/")" alt="@_dataItemFile.Alt" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" />
+
+                            @{var Videos = Model.GetDataItemFilesByCallName(i, "Videos"); }
+                            @if (Videos != null)
+                            {
+                                <div class="tp-caption tp-fade fadeout fullscreenvideo"
+							            data-x="0"
+							            data-y="0"
+                                        data-customin="scaleX:5;scaleY:5;"
+                                        data-customout="scaleX:0.75;scaleY:0.75;"
+							            data-speed="1000"
+							            data-start="1100"
+							            data-easing="Power4.easeOut"
+							            data-endspeed="1500"
+							            data-endeasing="Power4.easeIn"
+							            data-autoplay="true"
+							            data-autoplayonlyfirsttime="false"
+							            data-nextslideatend="true"
+							            data-forceCover="1"
+							            data-dottedoverlay="twoxtwo"
+							            data-aspectratio="16:9"
+							            data-forcerewind="on"
+                                        style="z-index: 2">
+
+                                    <video class="video-js vjs-default-skin" preload="none" width="100%" height="100%" poster='@_dataItemFile.CompressedPath.Replace("~/", "/")'>
+                                        @foreach (var Video in Videos)
+                                        {
+                                            @if (Video.OriginalPath != null)
+                                            {
+                                                var ContinueForEach = false;
+                                                var Type = "";
+                                                switch (System.IO.Path.GetExtension(Video.OriginalPath).ToLower())
+                                                {
+                                                    case ".mp4":
+                                                        Type = "video/mp4";
+                                                        break;
+                                                    case ".webm":
+                                                        Type = "video/webm";
+                                                        break;
+                                                    case ".ogv":
+                                                        Type = "video/ogg";
+                                                        break;
+                                                    default:
+                                                        ContinueForEach = true;
+                                                        break;
+                                                }
+
+                                                if (ContinueForEach)
+                                                {
+                                                    //Continue foreach
+                                                    continue;
+                                                }
+
+                                                <source src='@Video.OriginalPath.Replace("~/", "/")' type='@Type' />
+                                            }
+                                        }
+                                    </video>
+                                </div>
+                            }
+
+                            @{ var RGBA = Model.GetDataItemResourceByCallName(i, "RGBA"); }
+                            <div class="sd-ol" style="background-color: @RGBA;">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-xs-100">
+                                            @if (@i.DataItem.Title != "")
+                                            {
+                                                <div class="sd-border tp-caption customin customout"
+                                                     data-x="0" data-hoffset="0"
+                                                     data-y="180"
+                                                     data-customin="max-height:0;"
+                                                     data-customout="max-height:0;"
+                                                     data-speed="900"
+                                                     data-start="800"
+                                                     data-easing="Power4.easeOut"
+                                                     data-endspeed="600"
+                                                     data-endeasing="Power0.easeIn"
+                                                     style="z-index: 3">
+                                                </div>
+                                            
+                                                <div class="sd-content tp-caption customin customout"
+                                                        data-x="0" data-hoffset="0"
+                                                        data-y="170"
+                                                        data-customin="x:-30;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:0% 0%;"
+                                                        data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:0% 0%;"
+                                                        data-speed="1200"
+                                                        data-start="1400"
+                                                        data-easing="Power4.easeOut"
+                                                        data-endspeed="600"
+                                                        data-endeasing="Power0.easeIn"
+                                                        style="z-index: 3">
+
+                                                    <h5 class="sd-title">@i.DataItem.Title</h5>
+                                                </div>
+                                            }
+
+                                            @if (@i.DataItem.Text != "")
+                                            {
+                                                <div class="sd-content tp-caption customin customout"
+                                                        data-x="0" data-hoffset="0"
+                                                        data-y="170"
+                                                        data-customin="x:-30;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:0% 0%;"
+                                                        data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:0% 0%;"
+                                                        data-speed="1200"
+                                                        data-start="1900"
+                                                        data-easing="Power4.easeOut"
+                                                        data-endspeed="600"
+                                                        data-endeasing="Power0.easeIn"
+                                                        style="z-index: 3">
+
+                                                    <p class="sd-dct">
+                                                        @Html.Raw(i.DataItem.Text)
+                                                    </p>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+            <div class="tp-bannertimer"></div>
+
+            <div class="sd-ctn">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-50 sd-nav">
+                            <a id="previous">
+                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                     viewBox="0 0 3.8 7" style="enable-background:new 0 0 3.8 7;" xml:space="preserve">
+                                <polyline class="st0" points="3.7,6.8 0.4,3.5 3.7,0.2 " />
+                                </svg>
+                            </a>
+                            <a id="next">
+                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                     viewBox="0 0 3.8 7" style="enable-background:new 0 0 3.8 7;" xml:space="preserve">
+                                <polyline class="st0" points="0.2,0.2 3.5,3.5 0.2,6.8 " />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class="col-md-50">
+                            <div class="sd-bt">
+                                <a href="@($"{Model.Links["EducationUrl"]}")">Education</a>
+                                <a href="@($"{Model.Links["MaintenanceUrl"]}")">Maintenance</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="row f-df intro-about">
+            <div class="col-md-72" id="introText">
+                @Html.Raw(Model.GetPageResourceByCallName(Model.PageBundle, "Text"))
+                <a href="@($"{Model.Links["AboutUrl"]}")" class="btn btn-default">Lees meer</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slogan" style="background-image:url('@Model.GetPageFileCompressedByCallName(Model.PageBundle, "SloganBackground")');">
+    <div class="slogan-ol">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-100">
+                    @Html.Raw(Model.GetPageResourceByCallName(Model.PageBundle, "Slogan"))
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="row intro-projects" id="projectText">
+            <div class="col-md-29">
+                @{ var Quote = Model.GetPageResourceByCallName(Model.PageBundle, "Quote"); }
+                @if (Quote != "")
+                {
+                    <div class="quote-highlight">
+                        @Html.Raw(Quote)
+                    </div>
+                }
+            </div>
+
+            <div class="col-md-52 col-md-offset-19 f-df">
+                @Html.Raw(Model.GetPageResourceByCallName(Model.PageBundle, "SecondText"))
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pj-list pj-list-small">
+    <div class="container-fluid">
+        <div class="row" id="slickSlider">
+            @foreach (var i in Model.DataBundles["Projects"].OrderBy(x => x.DataItem.CustomOrder))
+            {
+                string show = i.DataTemplateFields.Join(i.DataItemResources, DataTemplateFields => DataTemplateFields.Id, DataItemResources => DataItemResources.DataTemplateFieldId, (DataTemplateFields, DataItemResources) => new { DataTemplateFields, DataItemResources })
+                                                  .FirstOrDefault(x => x.DataTemplateFields.CallName.ToLower() == "showhome").DataItemResources.Text.ToString();
+
+                if (show.ToLower() != "true") { continue; }
+
+                var _dataItemFile = Model.GetDataItemFileByCallName(i, "Image");
+                if (_dataItemFile != null)
+                {
+                    string classes = "";
+                    string catString = "";
+                    var _dataTemplateField = i.DataTemplateFields.FirstOrDefault(DataTemplateFields => DataTemplateFields.CallName.ToLower() == "category");
+                    var categories = i.DataTemplateFields.Join(i.DataItemResources.Where(x => x.DataTemplateFieldId == _dataTemplateField.Id), DataTemplateFields => DataTemplateFields.Id, DataItemResources => DataItemResources.DataTemplateFieldId, (DataTemplateFields, DataItemResources) => new { DataTemplateFields, DataItemResources })
+                                                         .Join(i.LinkedToDataItems, x => x.DataItemResources.Text, LinkedToDataItems => (LinkedToDataItems != null) ? LinkedToDataItems.Id.ToString() : "0", (x, LinkedToDataItems) => new { x.DataTemplateFields, LinkedToDataItems })
+                                                         .Where(x => x.DataTemplateFields.CallName.ToLower() == "category");
+                    int count = 0;
+                    foreach (var cat in categories.Distinct())
+                    {
+                        if (count++ > 0) { classes += " "; catString += ", "; }
+                        classes += "cat" + cat.LinkedToDataItems.Id;
+                        catString += cat.LinkedToDataItems.Title;
+                    }
+
+                    <div class="@($"{classes}")">
+                        <div class="pj-item">
+                            <img data-lazy="@_dataItemFile.CompressedPath.Replace("~/", "/")" alt="@_dataItemFile.Alt" />
+
+                            @{ var RGBA = Model.GetDataItemResourceByCallName(i, "RGBA"); }
+                            <div class="pj-ol" style="background-color: @RGBA;">
+                                <div class="pj-ct">
+                                    <h6>@i.DataItem.Title</h6>
+                                    @*<p>Integer ullamcorper, ligula et mollis vehicula, ex tellus pharetra fells, sed feugiar tortor nibh ut.</p>*@
+                                    <b>@catString</b>
+                                    <a class="btn btn-primary" href="@($"{Model.Links["ProjectsUrl"]}/{@i.DataItem.PageUrl}")">
+                                        Bekijk project
+                                        <svg version="1.1" class="right-arrow" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                             viewBox="0 0 28.8 16.9" style="enable-background:new 0 0 28.8 16.9;" xml:space="preserve">
+                                        <g>
+                                        <path class="st0" d="M1.2,7.3h23.4l-5.1-5.2c-0.6-0.5-0.6-1.1,0-1.7s1.1-0.6,1.7,0l7.2,7.2c0.1,0.1,0.2,0.2,0.3,0.4
+		                                                    s0.1,0.3,0.1,0.4s0,0.3-0.1,0.4s-0.1,0.3-0.3,0.4l-7.2,7.2c-0.5,0.6-1.1,0.6-1.7,0c-0.6-0.6-0.6-1.1,0-1.7l5.1-5.2H1.2
+		                                                    c-0.3,0-0.6-0.1-0.9-0.3S0,8.8,0,8.5s0-0.3,0-0.3s0.1-0.3,0.3-0.5S0.8,7.3,1.2,7.3z" />
+
+                                        </g>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+    <div class="container text-center">
+        <div class="row all-projects">
+            <div class="col-xs-100">
+                <a class="btn btn-link btn-lg" href="@($"{Model.Links["ProjectsUrl"]}")">
+                    Alle projecten weergeven
+                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 3.8 7" style="enable-background:new 0 0 3.8 7;" xml:space="preserve">
+                    <polyline class="st0" points="0.2,0.2 3.5,3.5 0.2,6.8 " />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

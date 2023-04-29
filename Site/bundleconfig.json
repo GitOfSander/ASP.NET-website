@@ -1,0 +1,295 @@
+﻿// Configure bundling and minification for the project.
+// More info at https://go.microsoft.com/fwlink/?LinkId=808241
+[
+  {
+    "outputFileName": "wwwroot/spine-content/js/minified/jquery.min.js",
+    "inputFiles": [
+      "wwwroot/spine-content/lib/jquery/dist/jquery.js",
+      "wwwroot/spine-content/lib/jquery-validation/dist/jquery.validate.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/js/minified/parallax.min.js",
+    "inputFiles": [
+      "wwwroot/spine-content/lib/parallax/dist/js/parallax.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/js/minified/collage-plus.min.js",
+    "inputFiles": [
+      "wwwroot/spine-content/lib/collage-plus/dist/js/jquery.collageplus.js",
+      "wwwroot/spine-content/lib/collage-plus/dist/js/jquery.removewhitespace.js",
+      "wwwroot/spine-content/lib/collage-plus/dist/js/jquery.collagecaption.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/js/minified/lightbox.min.js",
+    "inputFiles": [
+      "wwwroot/spine-content/lib/lightbox/dist/js/lightbox.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/js/minified/scroll-reveal.min.js",
+    "inputFiles": [
+      "wwwroot/spine-content/lib/scroll-reveal/dist/js/scroll-reveal.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/js/minified/revolution.min.js",
+    "inputFiles": [
+      "wwwroot/spine-content/lib/slider-revolution-master/dist/js/jquery.themepunch.plugins.min.js",
+      "wwwroot/spine-content/lib/slider-revolution-master/dist/js/jquery.themepunch.revolution.min.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/css/minified/lightbox.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/spine-content/lib/lightbox/dist/css/lightbox.css",
+      "wwwroot/spine-content/lib/lightbox/dist/css/custom-lightbox.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/css/minified/collage-plus.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/spine-content/lib/collage-plus/dist/css/transitions.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/css/minified/HomeSponsor.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/spine-content/css/collage.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/css/minified/HomeProject.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/spine-content/css/collage.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/css/minified/HomeProjects.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/spine-content/css/projects.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/css/minified/slick.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/spine-content/lib/slick/dist/css/slick.css",
+      "wwwroot/spine-content/lib/slick/dist/css/slick-theme.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/css/minified/HomeIndex.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/spine-content/css/slider.css",
+      "wwwroot/spine-content/lib/slider-revolution-master/dist/css/settings.css",
+      "wwwroot/spine-content/css/projects.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/js/minified/HomeIndex.min.js",
+    "inputFiles": [
+      "wwwroot/spine-content/js/HomeIndex.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/js/minified/HomeSponsor.min.js",
+    "inputFiles": [
+      "wwwroot/spine-content/js/HomeSponsor.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/js/minified/HomeTeam.min.js",
+    "inputFiles": [
+      "wwwroot/spine-content/js/HomeTeam.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/js/minified/HomeInformationImageText.min.js",
+    "inputFiles": [
+      "wwwroot/spine-content/js/HomeInformationImageText.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/js/minified/HomeInformationText.min.js",
+    "inputFiles": [
+      "wwwroot/spine-content/js/HomeInformationText.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/js/minified/HomeAbout.min.js",
+    "inputFiles": [
+      "wwwroot/spine-content/js/HomeAbout.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/js/minified/HomeContact.min.js",
+    "inputFiles": [
+      "wwwroot/spine-content/js/HomeContact.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/js/minified/HomeProjects.min.js",
+    "inputFiles": [
+      "wwwroot/spine-content/js/HomeProjects.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/js/minified/HomeProject.min.js",
+    "inputFiles": [
+      "wwwroot/spine-content/js/HomeProject.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/js/minified/slick.min.js",
+    "inputFiles": [
+      "wwwroot/spine-content/lib/slick/dist/js/slick.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/css/minified/main.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/spine-content/lib/bootstrap/dist/css/bootstrap.css",
+      "wwwroot/spine-content/css/font-styles.css",
+      "wwwroot/spine-content/css/buttons.css",
+      "wwwroot/spine-content/css/forms.css",
+      "wwwroot/spine-content/css/navbars.css",
+      "wwwroot/spine-content/css/stylesheet.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/spine-content/js/minified/main.min.js",
+    "inputFiles": [
+      "wwwroot/spine-content/lib/bootstrap/dist/js/bootstrap.js",
+      "wwwroot/spine-content/js/main.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  }
+]

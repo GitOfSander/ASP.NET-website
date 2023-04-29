@@ -1,0 +1,183 @@
+﻿@model DefaultViewModel
+
+@*@section Stylesheets {
+        <environment names="Development">
+            <link rel="stylesheet" href="~/css/minified/HomeInformationImageText.css" asp-append-version="true" />
+        </environment>
+        <environment names="Staging,Production">
+            <link rel="stylesheet" href="~/css/minified/HomeInformationImageText.min.css" asp-append-version="true" />
+        </environment>
+    }*@
+
+@section Scripts {
+    <environment names="Development">
+        <script src="~/spine-content/js/HomeAbout.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/spine-content/js/minified/HomeAbout.min.js" asp-append-version="true"></script>
+    </environment>
+}
+
+<section class="bn" id="bn">
+    <div class="bn-image" id="cladsafe" data-parallax data-speed="0.15" data-direction="up" style="background-image:url('@Model.GetPageFileCompressedByCallName(Model.PageBundle, "Header")');"></div>
+    <div class="bn-ol">
+        <div class="container">
+            <div class="row">
+                <div class="bn-ct">
+                    <h1 id="bnTitle">@Html.Raw(Model.GetPageResourceByCallName(Model.PageBundle, "Title"))</h1>
+
+                    @if (Model.Breadcrumbs != null)
+                    {
+                        <ol itemscope itemtype="http://schema.org/BreadcrumbList" id="bnBreadcrumbs" class="bn-breadcrumbs">
+                            @foreach (var Breadcrumb in Enumerable.Reverse(Model.Breadcrumbs.List))
+                            {
+                                <li itemprop="itemListElement" itemscope
+                                    itemtype="http://schema.org/ListItem">
+                                    <a itemscope itemtype="http://schema.org/Thing"
+                                       itemprop="item" href="@(Breadcrumb["Url"])">
+                                        <span itemprop="name">@(Breadcrumb["Title"])</span>
+                                    </a>
+                                    <meta itemprop="position" content="@(Breadcrumb["Position"])" />
+                                </li>
+                            }
+                        </ol>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="row f-df intro-about">
+            <div class="col-md-72" id="aboutIntro">
+                @Html.Raw(Model.GetPageResourceByCallName(Model.PageBundle, "IntroText"))
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bgc-e8eaea">
+    <div class="container f-df">
+        <div class="ifmt-text">
+            <div class="row">
+                <div class="col-md-30 ifmt-left" id="aboutQuote">
+                    @{ var Quote = Model.GetPageResourceByCallName(Model.PageBundle, "Quote"); }
+                    @if (Quote != "")
+                    {
+                        <div class="quote-highlight">
+                            @Html.Raw(Quote)
+                        </div>
+                    }
+                </div>
+                <div class="col-md-60 col-md-offset-10" id="aboutText">
+                    @Html.Raw(Model.GetPageResourceByCallName(Model.PageBundle, "SecondText"))
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="aboutImage">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-50 ifmt-image">
+                @{ var _pageFile = Model.GetPageFileByCallName(Model.PageBundle, "ImageLeftBelow"); }
+                @if (_pageFile != null)
+                {
+                    @:<img src="@_pageFile.CompressedPath.Replace("~/", "/")" alt="@_pageFile.Alt" class="img-responsive" />
+                }
+            </div>
+            <div class="col-sm-50 ifmt-image">
+                @{ _pageFile = Model.GetPageFileByCallName(Model.PageBundle, "ImageRightBelow"); }
+                @if (_pageFile != null)
+                {
+                    @:<img src="@_pageFile.CompressedPath.Replace("~/", "/")" alt="@_pageFile.Alt" class="img-responsive" />
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container" id="aboutEnd">
+        <div class="about-end">
+            <div class="row">
+                <div class="col-xs-100 about-quote">
+                    @{ Quote = Model.GetPageResourceByCallName(Model.PageBundle, "SecondQuote"); }
+                    @if (Quote != "")
+                    {
+                        <div class="quote-highlight">
+                            @Html.Raw(Quote)
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="row f-df">
+                <div class="col-md-100">
+                    @Html.Raw(Model.GetPageResourceByCallName(Model.PageBundle, "ThirdText"))
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-100">
+                    @{var Videos = Model.GetPageFilesByCallName(Model.PageBundle, "Videos");}
+
+                    @if (Videos != null)
+                    {
+                        <video class="video-js vjs-default-skin" preload="auto" controls="controls" width="100%" height="100%" poster="@Model.GetPageFileCompressedByCallName(Model.PageBundle, "VideoPoster")">
+                            @foreach (var Video in Videos)
+                            {
+                                if (Video != null)
+                                {
+                                    var ContinueForEach = false;
+                                    var Type = "";
+                                    switch (System.IO.Path.GetExtension(Video.CompressedPath).ToLower())
+                                    {
+                                        case ".mp4":
+                                            Type = "video/mp4";
+                                            break;
+                                        case ".webm":
+                                            Type = "video/webm";
+                                            break;
+                                        case ".ogv":
+                                            Type = "video/ogg";
+                                            break;
+                                        default:
+                                            ContinueForEach = true;
+                                            break;
+                                    }
+
+                                    if (ContinueForEach)
+                                    {
+                                        //Continue foreach
+                                        continue;
+                                    }
+
+                                    <source src='@Video.CompressedPath.Replace("~/", "/")' type='@Type' />
+                                }
+                            }
+                        </video>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bgc-e8eaea">
+    <div class="container">
+        <div class="row pn" id="aboutImages">
+            @foreach (var i in Model.DataBundles["QualityMarks"].OrderBy(x => x.DataItem.CustomOrder).ToList())
+            {
+                var _dataItemFile = Model.GetDataItemFileByCallName(i, "Logo");
+                @if (_dataItemFile != null)
+                {
+                    <div class="col-sm-25 col-xs-50 pn-item">
+                        <img src="@_dataItemFile.CompressedPath.Replace("~/", "/")" alt="@_dataItemFile.Alt" />
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>

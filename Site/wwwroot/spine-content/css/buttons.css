@@ -1,0 +1,266 @@
+﻿.btn {
+    display: inline-block;
+
+    color: #000;
+    font-family: 'Montserrat';
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 22px;
+    text-transform: uppercase;
+
+    padding: 8px 28px;
+
+    border: 1px solid #000000;
+    border-radius: 0;
+
+    -webkit-transition: background-color 0.5s, color 0.35s, opacity 0.5s;
+       -moz-transition: background-color 0.5s, color 0.35s, opacity 0.5s;
+            transition: background-color 0.5s, color 0.35s, opacity 0.5s;
+}
+
+.btn:hover,
+.btn:focus,
+.btn:active {
+    outline: 0;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+}
+
+.btn-default {
+    border: 1px solid #00aeef;
+}
+
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active {
+    color: #ffffff !important;
+
+    background-color: #00aeef !important;
+    border-color: #00aeef !important;
+}
+
+.btn-secondary {
+    background-color: #ffffff;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    color: #00aeef !important;
+
+    background-color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+}
+
+.btn-primary {
+    color: #ffffff;
+
+    background-color: transparent;
+    border: 1px solid #ffffff;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    color: #00aeef !important;
+
+    background-color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+}
+
+.btn-primary:hover .st0,
+.btn-primary:focus .st0,
+.btn-primary:active .st0 {
+    fill: #00aeef;
+    stroke: #00aeef;
+}
+
+.btn-primary.btn-c-blue:hover .st0,
+.btn-primary.btn-c-blue:focus .st0,
+.btn-primary.btn-c-blue:active .st0 {
+    fill: #ffffff;
+    stroke: #ffffff;
+}
+
+
+.btn-primary.btn-c-blue {
+    color: #00aeef;
+
+    background-color: transparent;
+    border: 1px solid #00aeef;
+}
+
+.btn-primary.btn-c-blue:hover, 
+.btn-primary.btn-c-blue:focus, 
+.btn-primary.btn-c-blue:active {
+    color: #ffffff !important;
+
+    background-color: #00aeef !important;
+    border: 1px solid #00aeef !important;
+}
+
+.btn-primary svg {
+    line-height: 25px;
+
+    height: 8px;
+    margin-left: 10px;
+}
+
+.btn-primary svg.right-arrow {
+    width: 10px;
+    height: 6px;
+}
+
+.btn-primary .st0 {
+    fill: #ffffff;
+    stroke: #ffffff;
+    stroke-width: 1;
+    stroke-miterlimit: 10;
+}
+
+.btn-primary.btn-c-blue .st0 {
+    fill: #00aeef;
+    stroke: #00aeef;
+}
+
+
+.btn-link {
+    color: #333333;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    text-transform: none;
+
+    padding: 7px 0;
+
+    opacity: 0.7;
+    background-color: transparent;
+    border: 0;
+}
+
+.btn-link:hover,
+.btn-link:focus,
+.btn-link:active {
+    color: #333333 !important;
+    text-decoration: none;
+
+    opacity: 1;
+    background-color: #ffffff !important;
+}
+
+.btn-link svg {
+    line-height: 25px;
+
+    height: 8px;
+    margin-left: 10px;
+}
+
+.btn-link svg.right-arrow { height: 5px; }
+
+.btn-link svg.right-arrow .st0 { fill: #f7941d; }
+
+.btn-link .st0 {
+    fill: none;
+    stroke: #f7941d;
+    stroke-width: 1;
+    stroke-miterlimit: 10;
+}
+
+.btn-link.btn-lg { 
+    font-size: 19px;
+    line-height: 29px;
+
+    padding: 10px 0;
+}
+
+.btn-link.btn-lg svg {
+    width: 6px;
+    height: 11px;
+}
+
+
+
+.btn-success {
+    color: #333333;
+
+    padding: 7px 0;
+
+    background-color: transparent;
+    border: 0;
+}
+
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active {
+    color: #f7941d !important;
+
+    background-color: transparent !important;
+}
+
+.btn-success svg {
+    line-height: 25px;
+
+    width: 9px;
+    height: 8px;
+    margin-left: 10px;
+}
+
+.btn-success svg.right-arrow { height: 5px; }
+
+.btn-success .st0 {
+    fill: #f7941d;
+    stroke: #f7941d;
+    stroke-width: 1;
+    stroke-miterlimit: 10;
+}
+
+.btn-success.btn-lg { 
+    font-size: 25px;
+    line-height: 36px;
+
+    padding: 13px 0;
+}
+
+.btn-success.btn-lg svg {
+    height: 12px;
+}
+
+
+
+
+
+.btn-c-light { color: #ffffff; }
+
+
+
+@media (max-width: 1400px) {
+    .btn {
+        font-size: 9px;
+        line-height: 20px;
+
+        padding: 5px 17px;
+    }
+
+    .btn-link.btn-lg {
+        font-size: 16px;
+        line-height: 26px;
+
+        padding: 8px 0;
+    }
+
+    .btn-link svg,
+    .btn-primary svg {
+        line-height: 23px;
+
+        height: 7px;
+        margin-left: 8px;
+    }
+
+    .btn-link.btn-lg svg {
+        width: 5px;
+        height: 9px;
+    }
+
+    .btn-success { padding: 7px 0; }
+
+    .btn-success svg { margin-left: 6px; }
+}

@@ -1,0 +1,111 @@
+﻿@model DefaultViewModel
+
+@section Stylesheets {
+    <environment names="Development">
+        <link href="~/spine-content/lib/lightbox/dist/css/lightbox.css" rel="stylesheet" />
+        <link href="~/spine-content/lib/lightbox/dist/css/custom-lightbox.css" rel="stylesheet" />
+        <link href="~/spine-content/lib/collage-plus/dist/css/transitions.css" rel="stylesheet" asp-append-version="true" />
+        <link rel="stylesheet" href="~/spine-content/css/collage.css" asp-append-version="true" />
+        @*<link rel="stylesheet" href="~/css/minified/HomeSponsorshipActivities.css" asp-append-version="true" />*@
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/spine-content/css/minified/lightbox.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/spine-content/css/minified/collage-plus.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/spine-content/css/minified/HomeSponsor.min.css" asp-append-version="true" />
+    </environment>
+}
+
+@section Scripts {
+    <environment names="Development">
+        <script src="~/spine-content/lib/lightbox/dist/js/lightbox.js"></script>
+        <script src="~/spine-content/lib/collage-plus/dist/js/jquery.collagePlus.js" asp-append-version="true"></script>
+        <script src="~/spine-content/lib/collage-plus/dist/js/jquery.removeWhitespace.js" asp-append-version="true"></script>
+        <script src="~/spine-content/lib/collage-plus/dist/js/jquery.collageCaption.js" asp-append-version="true"></script>
+        <script src="~/spine-content/js/HomeSponsor.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/spine-content/js/minified/lightbox.min.js" asp-append-version="true"></script>
+        <script src="~/spine-content/js/minified/collage-plus.min.js" asp-append-version="true"></script>
+        <script src="~/spine-content/js/minified/HomeSponsor.min.js" asp-append-version="true"></script>
+    </environment>
+}
+
+<section class="bn" id="bn">
+    <div class="bn-image" id="cladsafe" data-parallax data-speed="0.15" data-direction="up" style="background-image:url('@Model.GetPageFileCompressedByCallName(Model.PageBundle, "Header")');"></div>
+    <div class="bn-ol">
+        <div class="container">
+            <div class="row">
+                <div class="bn-ct">
+                    <h1 id="bnTitle">@Html.Raw(Model.GetPageResourceByCallName(Model.PageBundle, "Title"))</h1>
+
+                    @if (Model.Breadcrumbs != null)
+                    {
+                        <ol itemscope itemtype="http://schema.org/BreadcrumbList" id="bnBreadcrumbs" class="bn-breadcrumbs">
+                            @foreach (var Breadcrumb in Enumerable.Reverse(Model.Breadcrumbs.List))
+                            {
+                                <li itemprop="itemListElement" itemscope
+                                    itemtype="http://schema.org/ListItem">
+                                    <a itemscope itemtype="http://schema.org/Thing"
+                                       itemprop="item" href="@(Breadcrumb["Url"])">
+                                        <span itemprop="name">@(Breadcrumb["Title"])</span>
+                                    </a>
+                                    <meta itemprop="position" content="@(Breadcrumb["Position"])" />
+                                </li>
+                            }
+                        </ol>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container f-df sa">
+        @foreach (var i in Model.DataBundles["Sponsorships"].OrderBy(x => x.DataItem.CustomOrder).ToList())
+        {
+            <div class="row sa-item">
+                <div class="col-md-100 saText">
+                    <h2>@i.DataItem.Title</h2>
+
+                    @Html.Raw(i.DataItem.HtmlEditor)
+                </div>
+            </div>
+            @*@if (i.DataItemFiles.Join(i.DataTemplateUploads, DataItemFiles => DataItemFiles.DataTemplateUploadId, DataTemplateUploads => DataTemplateUploads.Id, (DataItemFiles, DataTemplateUploads) => new { DataItemFiles, DataTemplateUploads }).FirstOrDefault(x => x.DataTemplateUploads.CallName == "Images") != null)
+                {
+                    <div class="row sa-images">
+                        @foreach (var images in i.DataItemFiles.Join(i.DataTemplateUploads, DataItemFiles => DataItemFiles.DataTemplateUploadId, DataTemplateUploads => DataTemplateUploads.Id, (DataItemFiles, DataTemplateUploads) => new { DataItemFiles, DataTemplateUploads }).OrderBy(x => x.DataItemFiles.CustomOrder).Where(x => x.DataTemplateUploads.CallName == "Images").ToList())
+                        {
+                            <div class="col-xs-50 sa-img saImg">
+                                <a href="@images.DataItemFiles.CompressedPath.Replace("~/", "/")" data-lightbox="lightbox @i.DataItems.Id">
+                                    <img src="@images.DataItemFiles.CompressedPath.Replace("~/", "/")" />
+                                </a>
+                                <i>@images.DataItemFiles.Alt</i>
+                            </div>
+                        }
+                    </div>
+                }*@
+
+            <div class="row" id="pjiCollage">
+                <div class="col-xs-100">
+                    <div class="clg" id="clg">
+                        @{var Collage = Model.GetDataItemFilesByCallName(i, "Collage");}
+                        @if (Collage != null)
+                        {
+                            foreach (var Image in Collage)
+                            {
+                                if (Image.CompressedPath != null)
+                                {
+                                    var CompressedPath = Image.CompressedPath.Replace("~/", "/");
+                                    <div class="clgWrapper clg-item">
+                                        <a href="@CompressedPath" data-lightbox="@($"lightbox{i.DataItem.Id}")"><img src="@CompressedPath" alt="@Image.Alt" /></a>
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>

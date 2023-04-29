@@ -1,0 +1,182 @@
+﻿@model DefaultViewModel
+
+@section Stylesheets {
+    <environment names="Development">
+        <link href="~/spine-content/lib/lightbox/dist/css/lightbox.css" rel="stylesheet" />
+        <link href="~/spine-content/lib/lightbox/dist/css/custom-lightbox.css" rel="stylesheet" />
+        <link href="~/spine-content/lib/collage-plus/dist/css/transitions.css" rel="stylesheet" asp-append-version="true" />
+=       <link rel="stylesheet" href="~/spine-content/css/collage.css" asp-append-version="true" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/spine-content/css/minified/lightbox.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/spine-content/css/minified/collage-plus.min.css" asp-append-version="true" />
+=       <link rel="stylesheet" href="~/spine-content/css/minified/HomeProject.min.css" asp-append-version="true" />
+    </environment>
+}
+
+@section Scripts {
+    <environment names="Development">
+        <script src="~/spine-content/lib/lightbox/dist/js/lightbox.js"></script>
+        <script src="~/spine-content/lib/collage-plus/dist/js/jquery.collagePlus.js" asp-append-version="true"></script>
+        <script src="~/spine-content/lib/collage-plus/dist/js/jquery.removeWhitespace.js" asp-append-version="true"></script>
+        <script src="~/spine-content/lib/collage-plus/dist/js/jquery.collageCaption.js" asp-append-version="true"></script>
+        <script src="~/spine-content/js/HomeProject.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/spine-content/js/minified/lightbox.min.js" asp-append-version="true"></script>
+        <script src="~/spine-content/js/minified/collage-plus.min.js" asp-append-version="true"></script>
+        <script src="~/spine-content/js/minified/HomeProject.min.js" asp-append-version="true"></script>
+    </environment>
+}
+
+<section class="bn" id="bn">
+    <div class="bn-image" id="cladsafe" data-parallax data-speed="0.15" data-direction="up" style="background-image:url('@Model.GetDataItemFileCompressedByCallName(Model.DataBundle["Project"], "Header")');"></div>
+    <div class="bn-ol">
+        <div class="container">
+            <div class="row">
+                <div class="bn-ct">
+                    @*<h1 id="bnTitle">@(Model.PageResourcesList.FirstOrDefault(x => x.PageTemplateFields.CallName == "Title") != null ? Model.PageResourcesList.FirstOrDefault(x => x.PageTemplateFields.CallName == "Title").PageResources.Text.ToString() : "")</h1>*@
+                    <h1 id="bnTitle">@Model.DataBundle["Project"].DataItem.Title</h1>
+
+                    @if (Model.Breadcrumbs != null)
+                    {
+                        <ol itemscope itemtype="http://schema.org/BreadcrumbList" id="bnBreadcrumbs" class="bn-breadcrumbs">
+                            @foreach (var Breadcrumb in Enumerable.Reverse(Model.Breadcrumbs.List))
+                            {
+                                <li itemprop="itemListElement" itemscope
+                                    itemtype="http://schema.org/ListItem">
+                                    <a itemscope itemtype="http://schema.org/Thing"
+                                       itemprop="item" href="@(Breadcrumb["Url"])">
+                                        <span itemprop="name">@(Breadcrumb["Title"])</span>
+                                    </a>
+                                    <meta itemprop="position" content="@(Breadcrumb["Position"])" />
+                                </li>
+                            }
+                        </ol>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="pji f-df">
+            <div class="row">
+                <div class="col-md-36 pji-table" id="pjiTable">
+                    <table>
+                        <tr>
+                            <td>Werknaam:</td>
+                            <td>@Model.DataBundle["Project"].DataItem.Title</td>
+                        </tr>
+
+                        @if (Model.DataBundle["Project"].DataItem.FromDate.ToString("dd-MM-yyyy") != "01-01-1900")
+                        {
+                            <tr>
+                                <td>Datum:</td>
+                                <td>
+                                    @Model.DataBundle["Project"].DataItem.FromDate.ToString("yyyy") 
+                                    @if (Model.DataBundle["Project"].DataItem.ToDate.Year > Model.DataBundle["Project"].DataItem.FromDate.Year)
+                                    {
+                                        @:- @Model.DataBundle["Project"].DataItem.ToDate.ToString("yyyy")
+                                    }
+                                </td>
+                            </tr>
+                        }
+
+                        @{  var _dataTemplateField = Model.DataBundle["Project"].DataTemplateFields.FirstOrDefault(DataTemplateFields => DataTemplateFields.CallName.ToLower() == "category");
+                            var categories = Model.DataBundle["Project"].DataTemplateFields.Join(Model.DataBundle["Project"].DataItemResources.Where(x => x.DataTemplateFieldId == _dataTemplateField.Id), DataTemplateFields => DataTemplateFields.Id, DataItemResources => DataItemResources.DataTemplateFieldId, (DataTemplateFields, DataItemResources) => new { DataTemplateFields, DataItemResources })
+                                                                                           .Join(Model.DataBundle["Project"].LinkedToDataItems, x => x.DataItemResources.Text, LinkedToDataItems => (LinkedToDataItems != null) ? LinkedToDataItems.Id.ToString() : "0", (x, LinkedToDataItems) => new { x.DataTemplateFields, LinkedToDataItems })
+                                                                                           .Where(x => x.DataTemplateFields.CallName.ToLower() == "category"); }
+
+                        @{var index = 0; }
+                        @if (categories != null)
+                        {
+                            string CategoriesBundle = "";
+                            @foreach (var i in categories.Distinct())
+                            {
+                                @if (i.LinkedToDataItems != null)
+                                {
+                                    if (index > 0) { CategoriesBundle += (", "); }
+                                    CategoriesBundle += i.LinkedToDataItems.Title;
+                                    index++;
+                                }
+                            }
+
+                            if (CategoriesBundle != "")
+                            {
+                                <tr>
+                                    <td>Categorie:</td>
+                                    <td>@CategoriesBundle</td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+                
+                <div class="col-md-64" id="pjiContent">
+                    <div class="quote-highlight pji-intro">
+                        <p>@Html.Raw(Model.DataBundle["Project"].DataItem.Text)</p>
+                    </div>
+
+                    @Html.Raw(Model.DataBundle["Project"].DataItem.HtmlEditor)
+                </div>
+            </div>
+
+            <div class="row" id="pjiCollage">
+                <div class="col-xs-100">
+                    <div class="clg" id="clg">
+                        @{ var Collage = Model.GetDataItemFilesByCallName(Model.DataBundle["Project"], "Collage"); }
+                        @if (Collage != null)
+                        {
+                            foreach (var i in Collage)
+                            {
+                                if (i.CompressedPath != null)
+                                {
+                                    var CompressedPath = i.CompressedPath.Replace("~/", "/");
+                                    <div class="clgWrapper clg-item">
+                                        <a href="@CompressedPath" data-lightbox="collage"><img src="@CompressedPath" alt="@i.Alt" /></a>
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="row pji-nav">
+                @if (Model.Links.ContainsKey("PreviousProject"))
+                {
+                    <a class="pji-prev" href="@($"{Model.Links["ProjectsUrl"]}/{@Model.Links["PreviousProject"]}")">
+                        <svg version="1.1" class="right-arrow" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                             viewBox="0 0 28.8 16.9" style="enable-background:new 0 0 28.8 16.9;" xml:space="preserve">
+                        <g>
+                        <path class="st0" d="M1.2,7.3h23.4l-5.1-5.2c-0.6-0.5-0.6-1.1,0-1.7s1.1-0.6,1.7,0l7.2,7.2c0.1,0.1,0.2,0.2,0.3,0.4
+		                        s0.1,0.3,0.1,0.4s0,0.3-0.1,0.4s-0.1,0.3-0.3,0.4l-7.2,7.2c-0.5,0.6-1.1,0.6-1.7,0c-0.6-0.6-0.6-1.1,0-1.7l5.1-5.2H1.2
+		                        c-0.3,0-0.6-0.1-0.9-0.3S0,8.8,0,8.5s0-0.3,0-0.3s0.1-0.3,0.3-0.5S0.8,7.3,1.2,7.3z" />
+                    </g>
+                    </svg>
+                        Vorig project
+                    </a>
+                }
+
+                <a class="pji-all" href="/projecten">Alle projecten</a>
+                @if (Model.Links.ContainsKey("NextProject"))
+                {
+                    <a class="pji-next" href="@($"{Model.Links["ProjectsUrl"]}/{@Model.Links["NextProject"]}")">
+                        Volgend project
+                        <svg version="1.1" class="right-arrow" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                             viewBox="0 0 28.8 16.9" style="enable-background:new 0 0 28.8 16.9;" xml:space="preserve">
+                        <g>
+                        <path class="st0" d="M1.2,7.3h23.4l-5.1-5.2c-0.6-0.5-0.6-1.1,0-1.7s1.1-0.6,1.7,0l7.2,7.2c0.1,0.1,0.2,0.2,0.3,0.4
+		                            s0.1,0.3,0.1,0.4s0,0.3-0.1,0.4s-0.1,0.3-0.3,0.4l-7.2,7.2c-0.5,0.6-1.1,0.6-1.7,0c-0.6-0.6-0.6-1.1,0-1.7l5.1-5.2H1.2
+		                            c-0.3,0-0.6-0.1-0.9-0.3S0,8.8,0,8.5s0-0.3,0-0.3s0.1-0.3,0.3-0.5S0.8,7.3,1.2,7.3z" />
+                        </g>
+                        </svg>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</section>

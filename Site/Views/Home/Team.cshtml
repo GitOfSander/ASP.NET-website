@@ -1,0 +1,98 @@
+﻿@model DefaultViewModel
+
+@*@section Stylesheets {
+    <environment names="Development">
+        <link rel="stylesheet" href="~/css/minified/HomeTeam.css" asp-append-version="true" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/css/minified/HomeTeam.min.css" asp-append-version="true" />
+    </environment>
+}*@
+
+@section Scripts {
+    <environment names="Development">
+        <script src="~/spine-content/js/HomeTeam.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/spine-content/js/minified/HomeTeam.min.js" asp-append-version="true"></script>
+    </environment>
+}
+
+<section class="bn" id="bn">
+    <div class="bn-image" id="cladsafe" data-parallax data-speed="0.15" data-direction="up" style="background-image:url('@Model.GetPageFileCompressedByCallName(Model.PageBundle, "Header")');"></div>
+    <div class="bn-ol">
+        <div class="container">
+            <div class="row">
+                <div class="bn-ct">
+                    <h1 id="bnTitle">@Html.Raw(Model.GetPageResourceByCallName(Model.PageBundle, "Title"))</h1>
+
+                    @if (Model.Breadcrumbs != null)
+                    {
+                        <ol itemscope itemtype="http://schema.org/BreadcrumbList" id="bnBreadcrumbs" class="bn-breadcrumbs">
+                            @foreach (var Breadcrumb in Enumerable.Reverse(Model.Breadcrumbs.List))
+                            {
+                                <li itemprop="itemListElement" itemscope
+                                    itemtype="http://schema.org/ListItem">
+                                    <a itemscope itemtype="http://schema.org/Thing"
+                                       itemprop="item" href="@(Breadcrumb["Url"])">
+                                        <span itemprop="name">@(Breadcrumb["Title"])</span>
+                                    </a>
+                                    <meta itemprop="position" content="@(Breadcrumb["Position"])" />
+                                </li>
+                            }
+                        </ol>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container f-df">
+        <div class="row team-intro">
+            <div class="col-md-32">
+                <div class="quote-highlight" id="teamQuote">
+                    @Html.Raw(Model.GetPageResourceByCallName(Model.PageBundle, "Quote"))
+                </div>
+            </div>
+        
+            <div class="col-md-50 col-md-offset-18" id="teamText">
+                @Html.Raw(Model.GetPageResourceByCallName(Model.PageBundle, "Text"))
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-100 tm">
+                @foreach (var i in Model.DataBundles["Employees"].OrderBy(x => x.DataItem.CustomOrder).ToList())
+                {
+                    var _dataItemFile = Model.GetDataItemFileByCallName(i, "Picture");
+                    @if (_dataItemFile != null)
+                    {
+                        <div class="tm-item tmItem">
+                            <div class="tm-img">
+                                <img src="@_dataItemFile.CompressedPath.Replace("~/", "/")" alt="@_dataItemFile.Alt" />
+                            </div>
+                            <div class="tm-ct">
+                                <h5>@i.DataItem.Title</h5>
+                                <h6>@i.DataItem.Subtitle</h6>
+
+                                <p>@i.DataItem.Text</p>
+
+                                @{ var LinkedIn = Model.GetDataItemResourceByCallName(i, "LinkedIn"); }
+                                @if(LinkedIn != "")
+                                {
+                                    <span>Bekijk het profiel op <a href="@LinkedIn" target="_blank">LinkedIn</a></span>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</section>

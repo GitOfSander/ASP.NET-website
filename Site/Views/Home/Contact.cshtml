@@ -1,0 +1,184 @@
+﻿@model DefaultViewModel
+
+@section Stylesheets {
+    <environment names="Development">
+        <link rel="stylesheet" href="~/spine-content/css/slider.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/spine-content/lib/slider-revolution-master/dist/css/settings.css" asp-append-version="true" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/spine-content/css/minified/HomeIndex.min.css" asp-append-version="true" />
+    </environment>
+}
+
+@section Scripts {
+    <environment names="Development">
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHNl0uheL75naGs7ywXbuipk6uCmZV6uc"></script>
+        <script src="~/spine-content/js/HomeContact.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHNl0uheL75naGs7ywXbuipk6uCmZV6uc"></script>
+        <script src="~/spine-content/js/minified/HomeContact.min.js" asp-append-version="true"></script>
+    </environment>
+}
+
+<section class="bn bn-contact" id="bn">
+    <div class="bn-image" id="cladsafe" data-parallax data-speed="0.15" data-direction="up" style="background-image:url('@Model.GetPageFileCompressedByCallName(Model.PageBundle, "Header")');"></div>
+    <div class="bn-ol">
+        <div class="container">
+            <div class="row">
+                <div class="bn-ct">
+                    <h1 id="bnTitle">@Html.Raw(Model.GetPageResourceByCallName(Model.PageBundle, "Title"))</h1>
+
+                    @if (Model.Breadcrumbs != null)
+                    {
+                        <ol itemscope itemtype="http://schema.org/BreadcrumbList" id="bnBreadcrumbs" class="bn-breadcrumbs">
+                            @foreach (var Breadcrumb in Enumerable.Reverse(Model.Breadcrumbs.List))
+                            {
+                                <li itemprop="itemListElement" itemscope
+                                    itemtype="http://schema.org/ListItem">
+                                    <a itemscope itemtype="http://schema.org/Thing"
+                                       itemprop="item" href="@(Breadcrumb["Url"])">
+                                        <span itemprop="name">@(Breadcrumb["Title"])</span>
+                                    </a>
+                                    <meta itemprop="position" content="@(Breadcrumb["Position"])" />
+                                </li>
+                            }
+                        </ol>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container f-df">
+        <div class="row contact-intro" id="contactText">
+            <div class="col-md-60">
+                <h2>@Html.Raw(Model.GetPageResourceByCallName(Model.PageBundle, "IntroTitle"))</h2>
+                <hr />
+
+                @{ var Quote = Model.GetPageResourceByCallName(Model.PageBundle, "Introduction"); }
+                @if (Quote != "")
+                {
+                    <div class="quote-big">
+                        @Html.Raw(Quote)
+                    </div>
+                    <hr />
+                }
+            </div>
+
+            <div class="col-md-28 col-md-offset-12 contact-ci">
+                <address>
+                    <strong>@Model.GetWebsiteResourceByCallName(Model.WebsiteBundle, "emailTitle") </strong> <a href="mailto:@Model.GetWebsiteResourceByCallName(Model.WebsiteBundle, "email")">@Model.GetWebsiteResourceByCallName(Model.WebsiteBundle, "email")</a><br /><br /><br />
+                    <strong>@Model.GetWebsiteResourceByCallName(Model.WebsiteBundle, "phoneNumberTitle") </strong> @Model.GetWebsiteResourceByCallName(Model.WebsiteBundle, "phoneNumber") 
+                </address>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bgc-e8eaea contact-form">
+    <div class="container">
+        <div class="row f-df contact-text" id="contactText2">
+            <div class="col-md-100">
+                @Html.Raw(Model.GetPageResourceByCallName(Model.PageBundle, "Text"))
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-34" id="contactQuote">
+                @{ Quote = Model.GetPageResourceByCallName(Model.PageBundle, "Quote"); }
+                @if (Quote != "")
+                {
+                    <div class="quote-highlight quote-blue">
+                        @Html.Raw(Quote)
+                    </div>
+                }
+            </div>
+            <div class="col-md-66" id="contactForm">
+                <form class="cf-df" id="form">
+                    <div class="row">
+                        <div class="col-xs-49">
+                            <div class="form-group">
+                                <label class="required" for="name">Naam</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Uw naam">
+                                <div class="cf-bar"></div>
+                            </div>
+                        </div>
+                        <div class="col-xs-49 col-xs-offset-2">
+                            <div class="form-group">
+                                <label for="phonenumber">Telefoonnummer</label>
+                                <input type="tel" class="form-control" id="phonenumber" name="phonenumber" placeholder="Uw telefoonnummer">
+                                <div class="cf-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required" for="email">E-mailadres</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Uw e-mailadres">
+                        <div class="cf-bar"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required" for="message">Bericht</label>
+                        <textarea type="text" class="form-control" id="message" name="message" placeholder="Uw bericht"></textarea>
+                        <div class="cf-bar"></div>
+                    </div>
+
+                    <submit id="send" class="btn btn-primary btn-c-blue">
+                        Verzenden
+                        <svg class="right-arrow" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                             viewBox="0 0 28.8 16.9" style="enable-background:new 0 0 28.8 16.9;" xml:space="preserve">
+                        <g>
+                        <path class="st0" d="M1.2,7.3h23.4l-5.1-5.2c-0.6-0.5-0.6-1.1,0-1.7s1.1-0.6,1.7,0l7.2,7.2c0.1,0.1,0.2,0.2,0.3,0.4
+                        s0.1,0.3,0.1,0.4s0,0.3-0.1,0.4s-0.1,0.3-0.3,0.4l-7.2,7.2c-0.5,0.6-1.1,0.6-1.7,0c-0.6-0.6-0.6-1.1,0-1.7l5.1-5.2H1.2
+                        c-0.3,0-0.6-0.1-0.9-0.3S0,8.8,0,8.5s0-0.3,0-0.3s0.1-0.3,0.3-0.5S0.8,7.3,1.2,7.3z" />
+                        </g>
+                        </svg>
+                    </submit>
+
+                    <div class="row">
+                        <div class="col-xs-100 cf-result" id="cfResult">
+                        </div>
+                    </div>
+              </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="maps">
+    <div class="maps-back" id="googlemaps"></div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-27 col-md-offset-73 maps-ci">
+                <div class="row">
+                    <div class="col-md-offset-10 col-md-80" id="contactAddresses">
+                        <h6>Bezoekadres</h6>
+                        <address>
+                            @Html.Raw(Model.GetWebsiteResourceByCallName(Model.WebsiteBundle, "address"))
+                            <br />
+                            <br />
+                            @Model.GetWebsiteResourceByCallName(Model.WebsiteBundle, "phoneNumberTitle") 
+                            <a href="tel:@Model.GetWebsiteResourceByCallName(Model.WebsiteBundle, "phoneNumber")">@Model.GetWebsiteResourceByCallName(Model.WebsiteBundle, "phoneNumber")</a><br />
+                            @Model.GetWebsiteResourceByCallName(Model.WebsiteBundle, "faxTitle") 
+                            <a href="tel: @Model.GetWebsiteResourceByCallName(Model.WebsiteBundle, "fax")">@Model.GetWebsiteResourceByCallName(Model.WebsiteBundle, "fax") </a><br />
+                            @Model.GetWebsiteResourceByCallName(Model.WebsiteBundle, "emailTitle") 
+                            <a href="mailto:@Model.GetWebsiteResourceByCallName(Model.WebsiteBundle, "email")">@Model.GetWebsiteResourceByCallName(Model.WebsiteBundle, "email") </a>
+                        </address>
+                        <br /><br /><br />
+                        <h6>Postadres</h6>
+                        <address>
+                            @Html.Raw(Model.GetWebsiteResourceByCallName(Model.WebsiteBundle, "postAddress"))
+                            <br /><br />
+                            @Html.Raw(Model.GetWebsiteResourceByCallName(Model.WebsiteBundle, "businessInfo"))
+                        </address>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

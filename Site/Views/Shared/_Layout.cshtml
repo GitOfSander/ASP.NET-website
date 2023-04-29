@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewBag.PageTitle</title>
+        <meta name="description" content='@ViewBag.PageDescription' />
+        <meta name="keywords" content='@ViewBag.PageKeywords' />
+
+        <meta name="owner" content="Cladding Partners">
+        <meta name="author" content="Unveil, info@unveil.nl" />
+        <meta name="web_author" content="Unveil, info@unveil.nl">
+        <meta name="designer" content="Unveil, info@unveil.nl">
+        <!--<meta name="copyright" content="/assets/documents/copyright.pdf" />-->
+        <meta name="robots" content="all,index,follow">
+        <meta name="language" content="NL">
+        <meta name="subject" content="Gevelbekleding">
+
+        <meta property="og:url" content="http//www.cladding.nl/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="http://cladding.nl/spine-content/images/facebook.png" />
+        <meta property="og:title" content="@ViewBag.PageTitle" />
+        <meta property="og:description" content="@ViewBag.PageDescription" />
+        <meta property="og:site_name" content="Cladding Partners" />
+        <meta name="fb:page_id" content="170081449755138" />
+        <!--<meta property="fb:app_id" content="170081449755138" />-->
+
+        <meta name="og:email" content="info@cladding.nl" />
+        <meta name="og:phone_number" content="0162408300 " />
+        <!--<meta name="og:fax_number" content="" />-->
+
+        <meta name="og:latitude" content="51.6308698" />
+        <meta name="og:longitude" content="4.8828133" />
+        <meta name="og:street-address" content="Everdenberg 7-F" />
+        <meta name="og:locality" content="Oosterhout" />
+        <meta name="og:region" content="NL" />
+        <meta name="og:postal-code" content="4902TT" />
+        <meta name="og:country-name" content="Netherlands" />
+
+        <link rel="shortcut icon" type="image/png" href="/spine-content/images/favicon.png" />
+
+        <environment names="Development">
+            <link href="~/spine-content/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" asp-append-version="true" />
+            <link href="~/spine-content/css/font-styles.css" rel="stylesheet" asp-append-version="true" />
+            <link href="~/spine-content/css/buttons.css" rel="stylesheet" asp-append-version="true" />
+            <link href="~/spine-content/css/navbars.css" rel="stylesheet" asp-append-version="true" />
+            <link href="~/spine-content/css/forms.css" rel="stylesheet" asp-append-version="true" />
+            <link href="~/spine-content/css/stylesheet.css" rel="stylesheet" asp-append-version="true" />
+        </environment>
+        <environment names="Staging,Production">
+            <link rel="stylesheet" href="~/spine-content/css/minified/main.min.css" asp-append-version="true" />
+        </environment>
+
+        @RenderSection("stylesheets", required: false)
+    </head>
+    <body>
+        <!--Header content-->
+        @await Component.InvokeAsync("Header")
+        <!--End header content-->
+        
+        <!--Main content-->
+        <main>
+            @RenderBody()
+
+            <!--Cladsafe-->
+            @await Component.InvokeAsync("Cladsafe")
+            <!--End cladsafe-->
+
+            <!--Newspaper-->
+            @await Component.InvokeAsync("Newspaper")
+            <!--End newspaper-->
+        </main>
+        <!--End main content-->
+
+        <!--Footer content-->
+        @await Component.InvokeAsync("Footer")
+        <!--End footer content-->
+
+        <environment names="Development">
+            <script src="~/spine-content/lib/jquery/dist/jquery.js"></script>
+            <script src="~/spine-content/lib/jquery-validation/dist/jquery.validate.js"></script>
+            <script src="~/spine-content/lib/parallax/dist/js/parallax.js"></script>
+            <script src="~/spine-content/lib/scroll-reveal/dist/js/scroll-reveal.js"></script>
+            <script src="~/spine-content/lib/bootstrap/dist/js/bootstrap.js"></script>
+            <script src="~/spine-content/js/main.js"></script>
+        </environment>
+        <environment names="Staging,Production">
+            <script src="~/spine-content/js/minified/jquery.min.js" asp-append-version="true"></script>
+            <script src="~/spine-content/js/minified/parallax.min.js" asp-append-version="true"></script>
+            <script src="~/spine-content/js/minified/scroll-reveal.min.js" asp-append-version="true"></script>
+            <script src="~/spine-content/js/minified/main.min.js" asp-append-version="true"></script>
+        </environment>
+
+        @RenderSection("scripts", required: false)
+    </body>
+</html>

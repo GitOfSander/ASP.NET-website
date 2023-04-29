@@ -1,0 +1,90 @@
+﻿@model DefaultViewModel
+
+@section Stylesheets {
+    <environment names="Development">
+        <link rel="stylesheet" href="~/spine-content/lib/slick/dist/css/slick.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/spine-content/lib/slick/dist/css/slick-theme.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/spine-content/css/projects.css" asp-append-version="true" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/spine-content/css/minified/slick.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/spine-content/css/minified/HomeProjects.min.css" asp-append-version="true" />
+    </environment>
+}
+
+@section Scripts {
+    <environment names="Development">
+        <script src="~/spine-content/lib/slick/dist/js/slick.js" asp-append-version="true"></script>
+        <script src="~/spine-content/js/HomeProjects.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/spine-content/js/minified/slick.min.js" asp-append-version="true"></script>
+        <script src="~/spine-content/js/minified/HomeProjects.min.js" asp-append-version="true"></script>
+    </environment>
+}
+
+<section class="pj-list">
+    <div class="container-fluid">
+        <div class="row" id="slickSlider">
+            @foreach (var i in Model.DataBundles["Projects"].OrderBy(x => x.DataItem.CustomOrder))
+            {
+                var _dataItemFile = Model.GetDataItemFileByCallName(i, "Image");
+                if (_dataItemFile != null)
+                {
+                    string classes = "";
+                    string catString = "";
+                    var _dataTemplateField = i.DataTemplateFields.FirstOrDefault(DataTemplateFields => DataTemplateFields.CallName.ToLower() == "category");
+                    var categories = i.DataTemplateFields.Join(i.DataItemResources.Where(x => x.DataTemplateFieldId == _dataTemplateField.Id), DataTemplateFields => DataTemplateFields.Id, DataItemResources => DataItemResources.DataTemplateFieldId, (DataTemplateFields, DataItemResources) => new { DataTemplateFields, DataItemResources })
+                                                         .Join(i.LinkedToDataItems, x => x.DataItemResources.Text, LinkedToDataItems => (LinkedToDataItems != null) ? LinkedToDataItems.Id.ToString() : "0", (x, LinkedToDataItems) => new { x.DataTemplateFields, LinkedToDataItems })
+                                                         .Where(x => x.DataTemplateFields.CallName.ToLower() == "category");
+                    int count = 0;
+                    foreach (var cat in categories.Distinct())
+                    {
+                        if (count++ > 0) { classes += " "; catString += ", "; }
+                        classes += "cat" + cat.LinkedToDataItems.AlternateGuid;
+                        catString += cat.LinkedToDataItems.Title;
+                    }
+
+                    <div class="@($"{classes}")">
+                        <div class="pj-item">
+                            <img data-lazy="@_dataItemFile.CompressedPath.Replace("~/", "/")" alt="@_dataItemFile.Alt" />
+                        
+                            @{ var RGBA = Model.GetDataItemResourceByCallName(i, "RGBA"); }
+                            <div class="pj-ol" style="background-color: @RGBA;">
+                                <div class="pj-ct">
+                                    <h6>@i.DataItem.Title</h6>
+                                    @*<p>Integer ullamcorper, ligula et mollis vehicula, ex tellus pharetra fells, sed feugiar tortor nibh ut.</p>*@
+                                    <b>@catString</b>
+                                    <a class="btn btn-primary" href="@($"{Model.Links["ProjectsUrl"]}/{@i.DataItem.PageUrl}")">
+                                        Bekijk project
+                                        <svg version="1.1" class="right-arrow" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                             viewBox="0 0 28.8 16.9" style="enable-background:new 0 0 28.8 16.9;" xml:space="preserve">
+                                        <g>
+                                        <path class="st0" d="M1.2,7.3h23.4l-5.1-5.2c-0.6-0.5-0.6-1.1,0-1.7s1.1-0.6,1.7,0l7.2,7.2c0.1,0.1,0.2,0.2,0.3,0.4
+		                                        s0.1,0.3,0.1,0.4s0,0.3-0.1,0.4s-0.1,0.3-0.3,0.4l-7.2,7.2c-0.5,0.6-1.1,0.6-1.7,0c-0.6-0.6-0.6-1.1,0-1.7l5.1-5.2H1.2
+		                                        c-0.3,0-0.6-0.1-0.9-0.3S0,8.8,0,8.5s0-0.3,0-0.3s0.1-0.3,0.3-0.5S0.8,7.3,1.2,7.3z" />
+
+
+
+                                    </g>
+                                    </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+    <div class="pj-filter" id="slickFilter">
+        <ul>
+            <li class="active" data-filter="*">All</li>
+            @foreach (var i in Model.DataBundles["ProjectCategories"])
+            {
+                <li data-title="@Model.GenerateSlug(i.DataItem.AlternateGuid)" data-filter="@($".cat{i.DataItem.AlternateGuid}")">@i.DataItem.Title</li>
+            }
+        </ul>
+    </div>
+</section>
